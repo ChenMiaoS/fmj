@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,7 +35,7 @@ public class FFmpegUtils {
                 vi = new VideoInfo();
             }
 
-            Pattern patternDuration = Pattern.compile(regexDuration);
+            Pattern patternDuration = Pattern.compile("Duration: (.*?), bitrate: (\\d*) kb\\/s");
             Matcher matcherDuration = patternDuration.matcher(stdout);
             if (matcherDuration.find()) {
                 String duration = matcherDuration.group(1);
@@ -44,7 +45,8 @@ public class FFmpegUtils {
                     int minute = Integer.valueOf(time[1]);
                     int second = 0;
                     if (time[2].indexOf(".") >= 0) {
-                        second = Integer.valueOf(time[2].substring(0, time[2].indexOf(".")));
+                        BigDecimal bigDecimal = BigDecimal.valueOf(Double.valueOf(time[2]) * 1000.0D);
+                        second = bigDecimal.intValue();
                     } else {
                         second = Integer.valueOf(time[2]);
                     }

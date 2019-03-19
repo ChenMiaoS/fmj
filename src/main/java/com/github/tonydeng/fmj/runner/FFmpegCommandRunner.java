@@ -132,6 +132,25 @@ public class FFmpegCommandRunner {
         return vf;
     }
 
+    public static String cutAudio(String input, String target, String beginTime, String endTime) {
+        List<String> commands = Lists.newArrayList(BaseCommandOption.cutAudio(input, target, beginTime, endTime));
+        String s = null;
+
+        try {
+            s = runProcess(commands);
+        } catch (Exception var7) {
+            log.info("exception is {}", var7.getMessage());
+        }
+
+        return s;
+    }
+
+    public static String mp3ToWav(String input, String target) {
+        List<String> commands = Lists.newArrayList(BaseCommandOption.mp3ToWav(input, target));
+        String s = runProcess(commands);
+        return s;
+    }
+
     /**
      * 执行命令
      *

@@ -225,4 +225,38 @@ public class BaseCommandOption {
         }
         return Collections.EMPTY_LIST;
     }
+
+    /**
+     * 切割音频
+     * @param
+     * @return
+     */
+    public static List<String> cutAudio(String input, String target, String begin, String end) {
+        List<String> commands = Lists.newArrayList();
+        commands.add("ffmpeg");
+        commands.addAll(toInputCommonsCmdArrays(input));
+        commands.add("-ss");
+        commands.add(begin);
+        commands.add("-t");
+        commands.add(end);
+        commands.add("-acodec");
+        commands.add("copy");
+        commands.add(target);
+        return commands;
+    }
+
+    /**
+     * MP3转wav
+     * @param
+     * @return
+     */
+    public static List<String> mp3ToWav(String input, String target) {
+        List<String> commands = Lists.newArrayList();
+        commands.add("ffmpeg");
+        commands.addAll(toInputCommonsCmdArrays(input));
+        commands.add("-f");
+        commands.add("wav");
+        commands.add(target);
+        return commands;
+    }
 }
